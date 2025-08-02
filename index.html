@@ -339,6 +339,12 @@
             overflow: hidden;
             min-width: 180px;
         }
+
+        #recordButton:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
         
         #recordButton::before {
             content: '';
@@ -351,12 +357,12 @@
             transition: left 0.6s;
         }
         
-        #recordButton:hover {
+        #recordButton:not(:disabled):hover {
             transform: translateY(-3px);
             box-shadow: 0 12px 35px rgba(34, 139, 34, 0.4);
         }
         
-        #recordButton:hover::before {
+        #recordButton:not(:disabled):hover::before {
             left: 100%;
         }
         
@@ -662,7 +668,7 @@
         <h1 class="main-title">നിന്റെ ഒച്ചക്കു ഞാൻ കാത്തിരിക്കുന്നു!</h1>
         <p class="subtitle">Your Sarcastic Malayalam Companion</p>
         <p class="status-text" id="statusText">Press and hold the button to speak</p>
-        <button id="recordButton">🎤 Hold to Speak</button>
+        <button id="recordButton" disabled>🎤 Connecting...</button>
     </div>
     
     <!-- Transcript container -->
@@ -705,6 +711,7 @@
             let audioStream;
             let isRecording = false;
 
+            // --- THIS IS THE CRITICAL CHANGE ---
             const socket = io('https://chaattapeeli-backend.onrender.com');
             
             // Character states and expressions
@@ -739,9 +746,17 @@
             
             // Socket events
             socket.on('connect', () => {
+                console.log('Socket connected!');
                 addTranscriptEntry('System', '✅ Connection established with Chaattapeeli');
                 setCharacterState('lady-listening');
                 initializeAudio();
+            });
+
+            socket.on('connect_error', (err) => {
+                console.error('Socket connection error:', err);
+                statusText.textContent = 'Could not connect to server.';
+                recordButton.textContent = '❌ Connection Failed';
+                recordButton.disabled = true;
             });
 
             socket.on('transcription_result', (data) => {
@@ -758,10 +773,13 @@
                 try {
                     audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
                     recordButton.disabled = false;
+                    recordButton.textContent = '🎤 Hold to Speak';
                     statusText.textContent = 'Ready to listen! Hold the button and speak';
                 } catch (err) {
-                    statusText.textContent = 'Microphone access denied. Please enable microphone.';
+                    console.error('Error getting microphone:', err);
+                    statusText.textContent = 'Microphone access denied. Please enable it.';
                     recordButton.disabled = true;
+                    recordButton.textContent = '🎤 Mic Required';
                     bubbleText.textContent = 'മൈക്രോഫോൺ വേണം!';
                     showSpeechBubble();
                 }
