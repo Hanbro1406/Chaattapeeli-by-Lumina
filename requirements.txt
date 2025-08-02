@@ -1,0 +1,9 @@
+Flask
+Flask-Cors
+Flask-SocketIO
+gunicorn
+eventlet
+SpeechRecognition
+google-generativeai
+python-dotenv
+gTTS
