@@ -91,7 +91,7 @@ The browser will ask for microphone permission; you must allow it for the applic
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1] <img width="1621" height="741" alt="listening" src="https://github.com/user-attachments/assets/4efe4f44-978e-4750-876c-b5c68c71ddf4" />
+![Screenshot1] ([<img width="1621" height="741" alt="listening" src="https://github.com/user-attachments/assets/4efe4f44-978e-4750-876c-b5c68c71ddf4" />])
 
 *Add caption explaining what this shows*
 
