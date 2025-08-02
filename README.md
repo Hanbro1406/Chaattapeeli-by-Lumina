@@ -77,21 +77,15 @@ Create a file named .env in the root of the project directory.
 Add your Google Gemini API key to this file:=
 GEMINI_API_KEY="YOUR_GEMINI_API_KEY_HERE"
 
-Run
 
-Start the Flask backend server.
-Bash
-python app.py
+# Run
+Start the Flask backend server. Bash python app.py
 
-You should see output indicating the server is running on http://127.0.0.1:5000.
-Launch the frontend.
+You should see output indicating the server is running on http://127.0.0.1:5000. Launch the frontend.
 
 Open the index.html file directly in a modern web browser (like Chrome, Firefox, or Edge).
 
 The browser will ask for microphone permission; you must allow it for the application to work.
-
-# Run
-[commands]
 
 ### Project Documentation
 For Software:
