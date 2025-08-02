@@ -93,14 +93,13 @@ For Software:
 # Screenshots (Add at least 3)
 ![Screenshot1] ([<img width="1621" height="741" alt="listening" src="https://github.com/user-attachments/assets/4efe4f44-978e-4750-876c-b5c68c71ddf4" />])
 
-*Add caption explaining what this shows*
+*Listening*
 
 ![Screenshot2]([<img width="1596" height="749" alt="procsessing" src="https://github.com/user-attachments/assets/2977c4a8-3a13-4cee-8b4c-c3f2d661c763" />]
-*Add caption explaining what this shows*
+*Processing*
 
 ![Screenshot3]([<img width="1615" height="746" alt="reply" src="https://github.com/user-attachments/assets/389cc96e-e188-403b-b2f7-2dd0e73a5e56" />])
-*Add caption explaining what this shows*
-*Add caption explaining what this shows*
+*Reply*
 
 # Diagrams
 ![Workflow](Add your workflow/architecture diagram here)
