@@ -6,13 +6,12 @@
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: [Lumina]
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: [Hansel T Jaison] - [Albertian Institute of Science & Technology]
+- Member 2: [Sivani N.S] - [Albertian Institute of Science & Technology]
 
 ### Project Description
 [2-3 lines about what your project does]
