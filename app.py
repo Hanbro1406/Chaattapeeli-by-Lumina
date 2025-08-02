@@ -1,6 +1,3 @@
-import eventlet
-eventlet.monkey_patch()
-
 # Bilingual Sarcastic Comeback Generator - Flask Backend with Gemini (app.py) - FINAL
 import os
 import speech_recognition as sr
@@ -12,39 +9,35 @@ import subprocess
 import random
 import google.generativeai as genai
 from dotenv import load_dotenv
-from gtts import gTTS
-import io
-import base64
+from gtts import gTTS # 👈 1. IMPORT gTTS
+import io             # 👈 2. IMPORT io
+import base64         # 👈 3. IMPORT base64
 
 # --- Setup ---
 app = Flask(__name__)
-
-# Configure SocketIO to allow connections from all origins for debugging.
-# This also handles CORS for the WebSocket connections.
+CORS(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 # Load environment variables from .env file
 load_dotenv()
 
-# --- Add a root route for health checks ---
-@app.route('/')
-def index():
-    return "Chaattapeeli backend is running!"
-
 # --- Configure Gemini API ---
 try:
     genai.configure(api_key=os.environ["GEMINI_API_KEY"])
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-1.5-flash') # Using Flash for speed
     print("Gemini API configured successfully.")
 except (AttributeError, KeyError):
-    print("🔴 FATAL ERROR: GEMINI_API_KEY not found or invalid.")
-    model = None
+    print("🔴 FATAL ERROR: GEMINI_API_KEY not found or invalid. Make sure you have a .env file with the key.")
+    model = None # Set model to None if API key is missing
 
 recognizer = sr.Recognizer()
 recognizer.dynamic_energy_threshold = True
 
 
 # --- Core Functions ---
+
+# ... (keep your existing convert_audio_to_wav, transcribe_audio_bilingual, 
+#      generate_sarcastic_comeback, and get_fallback_response functions exactly as they are) ...
 
 def convert_audio_to_wav(input_path, output_path):
     """Converts audio file to WAV format using ffmpeg."""
@@ -136,6 +129,7 @@ def get_fallback_response(lang):
     return random.choice(malayalam_responses) if lang == "ml-IN" else random.choice(english_responses)
 
 
+# --- 👇 4. ADD THIS NEW FUNCTION ---
 def generate_audio_response(text, lang):
     """
     Generates audio from text using gTTS and returns it as a base64 encoded string.
@@ -173,6 +167,7 @@ def handle_audio_chunk(audio_data):
     else:
         comeback = generate_sarcastic_comeback(transcribed_text, detected_lang)
 
+    # --- 👇 5. MODIFY THIS SECTION ---
     # Generate the audio response from the comeback text
     audio_response = generate_audio_response(comeback, detected_lang)
 
@@ -180,8 +175,9 @@ def handle_audio_chunk(audio_data):
         "original_text": transcribed_text,
         "sarcastic_comeback": comeback,
         "lang": detected_lang,
-        "audio_response": audio_response
+        "audio_response": audio_response # Send the audio data to the frontend
     })
+    # --- END OF MODIFICATION ---
 
 # --- Main Execution ---
 
