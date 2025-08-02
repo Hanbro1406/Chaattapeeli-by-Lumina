@@ -1,3 +1,5 @@
+import eventlet
+eventlet.monkey_patch()
 # Bilingual Sarcastic Comeback Generator - Flask Backend with Gemini (app.py) - FINAL
 import os
 import speech_recognition as sr
