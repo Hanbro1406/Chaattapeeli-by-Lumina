@@ -25,10 +25,13 @@ Enter Chaattapeeli, the digital embodiment of a quintessential Keralite aunt wit
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- [Languages used: Python, JavaScript, HTML, CSS]
+- [Frameworks used: Flask, Flask-SocketIO]
+- [Libraries used Key Libraries Used:
+Backend: google-generativeai, speech_recognition, gTTS, python-dotenv
+Frontend: socket.io-client
+External APIs: Google Gemini 1.5 Flash, Google Speech Recognition
+- [ffmpeg for audio format conversion]
 
 For Hardware:
 - [List main components]
