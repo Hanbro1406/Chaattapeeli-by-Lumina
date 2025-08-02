@@ -42,6 +42,38 @@ For Hardware:
 For Software:
 # Installation
 [commands]
+Installation
+Clone the repository and navigate into the directory.
+Bash
+git clone <your-repository-url>
+cd <repository-name>
+Create and activate a Python virtual environment.
+Bash
+# For macOS/Linux
+python3 -m venv venv
+source venv/bin/activate
+# For Windows
+python -m venv venv
+.\venv\Scripts\activate
+Install ffmpeg. This is a crucial dependency for audio processing.
+On macOS (via Homebrew): brew install ffmpeg
+On Debian/Ubuntu: sudo apt update && sudo apt install ffmpeg
+On Windows: Download from the official website and add the bin directory to your system's PATH.
+Install the required Python packages.
+Bash
+pip install Flask Flask-SocketIO google-generativeai SpeechRecognition python-dotenv gTTS
+Create an environment file.
+Create a file named .env in the root of the project directory.
+Add your Google Gemini API key to this file:
+GEMINI_API_KEY="YOUR_GEMINI_API_KEY_HERE"
+Run
+Start the Flask backend server.
+Bash
+python app.py
+You should see output indicating the server is running on http://127.0.0.1:5000.
+Launch the frontend.
+Open the index.html file directly in a modern web browser (like Chrome, Firefox, or Edge).
+The browser will ask for microphone permission; you must allow it for the application to work.
 
 # Run
 [commands]
