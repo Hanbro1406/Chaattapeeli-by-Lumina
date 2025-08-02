@@ -98,8 +98,8 @@ For Software:
 ![Screenshot2]([<img width="1596" height="749" alt="procsessing" src="https://github.com/user-attachments/assets/2977c4a8-3a13-4cee-8b4c-c3f2d661c763" />]
 *Add caption explaining what this shows*
 
-![Screenshot3](<img width="1615" height="746" alt="reply" src="https://github.com/user-attachments/assets/ada89cab-c50f-4321-b314-39ed29e2a76c" />
-)]
+![Screenshot3]([<img width="1615" height="746" alt="reply" src="https://github.com/user-attachments/assets/389cc96e-e188-403b-b2f7-2dd0e73a5e56" />])
+*Add caption explaining what this shows*
 *Add caption explaining what this shows*
 
 # Diagrams
