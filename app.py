@@ -14,9 +14,16 @@ import io             # 👈 2. IMPORT io
 import base64         # 👈 3. IMPORT base64
 
 # --- Setup ---
+# Define the trusted frontend URL
+frontend_url = "https://chaattapeeli-by-lumina.vercel.app"
+
 app = Flask(__name__)
-CORS(app)
-socketio = SocketIO(app, cors_allowed_origins="*")
+
+# Configure CORS to allow your frontend URL
+CORS(app, resources={r"/*": {"origins": frontend_url}})
+
+# Configure SocketIO to allow your frontend URL
+socketio = SocketIO(app, cors_allowed_origins=frontend_url)
 
 # Load environment variables from .env file
 load_dotenv()
