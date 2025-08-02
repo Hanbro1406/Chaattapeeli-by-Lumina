@@ -52,16 +52,16 @@ Bash
 # For macOS/Linux
 python3 -m venv venv
 source venv/bin/activate
+
+On macOS (via Homebrew): brew install ffmpeg
+
+On Debian/Ubuntu: sudo apt update && sudo apt install ffmpeg
 # For Windows
 python -m venv venv
 
 .\venv\Scripts\activate
 
 Install ffmpeg. This is a crucial dependency for audio processing.
-
-On macOS (via Homebrew): brew install ffmpeg
-
-On Debian/Ubuntu: sudo apt update && sudo apt install ffmpeg
 
 On Windows: Download from the official website and add the bin directory to your system's PATH.
 
