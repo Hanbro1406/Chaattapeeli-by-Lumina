@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>നിന്റെ ഒച്ചക്കു ഞാൻ കാത്തിരിക്കുന്നു! (Live AI Edition)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(-45deg, #0f0f23, #1a1a2e, #16213e, #0f3460);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .main-container { text-align: center; z-index: 10; position: relative; padding: 2rem; display: flex; flex-direction: column; align-items: center; }
+        .main-title { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 600; color: #ffffff; margin-bottom: 1rem; text-shadow: 0 0 20px rgba(255, 255, 255, 0.3); letter-spacing: -0.02em; }
+        #recordButton { margin-top: 2rem; padding: 1rem 2rem; font-size: 1.2rem; font-weight: 600; color: #fff; background: #e94560; border: none; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(233, 69, 96, 0.4); -webkit-user-select: none; -ms-user-select: none; user-select: none; }
+        #recordButton:hover { transform: translateY(-3px); box-shadow: 0 6px 25px rgba(233, 69, 96, 0.6); }
+        #recordButton.recording { background: #16a085; box-shadow: 0 4px 20px rgba(22, 160, 133, 0.4); }
+        .status-text { color: rgba(255, 255, 255, 0.7); margin-top: 1rem; min-height: 1.2em; font-size: 1.2rem; font-weight: 500; }
+        .transcript-container { position: absolute; bottom: 2rem; left: 2rem; right: 2rem; max-height: 30vh; overflow-y: auto; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 12px; backdrop-filter: blur(5px); z-index: 5; text-align: left; color: rgba(255, 255, 255, 0.7); }
+        .transcript-entry { margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .character-card { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); width: 450px; max-width: 90vw; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 24px; padding: 2.5rem; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4); opacity: 0; visibility: hidden; transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); z-index: 100; pointer-events: none; }
+        .character-card.active { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
+        .user-quote { font-style: italic; color: rgba(255, 255, 255, 0.6); margin-bottom: 1.5rem; padding: 0.5rem 1rem; border-left: 3px solid rgba(255, 255, 255, 0.4); font-size: 1rem; text-align: left; width: 100%; }
+        .character-avatar { font-size: 3.5rem; margin-bottom: 1.5rem; }
+        .character-name { font-size: 1.8rem; font-weight: 600; color: #ffffff; }
+        .character-description { font-size: 1.1rem; color: rgba(255, 255, 255, 0.8); line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <h1 class="main-title">നിന്റെ ഒച്ചക്കു ഞാൻ കാത്തിരിക്കുന്നു!</h1>
+        <p class="status-text" id="statusText">Press and hold the button to speak</p>
+        <button id="recordButton">Hold to Speak</button>
+    </div>
+    
+    <div class="transcript-container" id="transcript-container"></div>
+    <div class="character-card" id="aiCard">
+        <p class="user-quote" id="userQuote"></p>
+        <div class="character-avatar">😈</div>
+        <h2 class="character-name">Chaattapeeli</h2>
+        <p class="character-description" id="aiReply"></p>
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const statusText = document.getElementById('statusText');
+        const aiCard = document.getElementById('aiCard');
+        const userQuote = document.getElementById('userQuote');
+        const aiReply = document.getElementById('aiReply');
+        const transcriptContainer = document.getElementById('transcript-container');
+        const recordButton = document.getElementById('recordButton');
+        
+        let mediaRecorder;
+        let audioChunks = [];
+        let audioStream;
+
+        const socket = io('http://127.0.0.1:5000');
+        
+        socket.on('connect', () => {
+            addTranscriptEntry('System', 'Bilingual connection established.');
+            initializeAudio();
+        });
+
+        // --- MODIFIED: Handle new 'lang' property from server ---
+        socket.on('transcription_result', (data) => {
+            addTranscriptEntry('You', data.original_text);
+            // Pass the detected language to the display function
+            displayAIReply(data.original_text, data.sarcastic_comeback, data.lang);
+            statusText.textContent = 'Press and hold the button to speak';
+            recordButton.disabled = false;
+        });
+
+        const initializeAudio = async () => {
+            try {
+                audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                recordButton.disabled = false;
+            } catch (err) {
+                statusText.textContent = 'Microphone access denied.';
+                recordButton.disabled = true;
+            }
+        };
+
+        const startRecording = () => {
+            if (!audioStream) return;
+            audioChunks = [];
+            mediaRecorder = new MediaRecorder(audioStream);
+            mediaRecorder.addEventListener("dataavailable", event => audioChunks.push(event.data));
+            mediaRecorder.addEventListener("stop", processAudio);
+            mediaRecorder.start();
+            recordButton.textContent = 'Listening...';
+            recordButton.classList.add('recording');
+        };
+
+        const stopRecording = () => {
+             if (mediaRecorder && mediaRecorder.state === "recording") {
+                mediaRecorder.stop();
+                recordButton.textContent = 'Processing...';
+                recordButton.classList.remove('recording');
+                recordButton.disabled = true;
+            }
+        };
+        
+        recordButton.addEventListener('mousedown', startRecording);
+        recordButton.addEventListener('mouseup', stopRecording);
+        recordButton.addEventListener('touchstart', (e) => { e.preventDefault(); startRecording(); });
+        recordButton.addEventListener('touchend', stopRecording);
+
+        const processAudio = () => {
+            if (audioChunks.length === 0) {
+                recordButton.disabled = false;
+                recordButton.textContent = 'Hold to Speak';
+                return;
+            };
+            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+            socket.emit('audio_chunk', audioBlob);
+        };
+        
+        // --- MODIFIED: speakText function now accepts a language code ---
+        const speakText = (text, lang) => {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            const voices = window.speechSynthesis.getVoices();
+            
+            // Dynamically select voice based on language
+            if (lang === 'ml-IN') {
+                utterance.voice = voices.find(voice => voice.lang === 'ml-IN');
+                utterance.lang = 'ml-IN';
+            } else { // Default to English
+                utterance.voice = voices.find(voice => voice.lang === 'en-US');
+                utterance.lang = 'en-US';
+            }
+            
+            window.speechSynthesis.speak(utterance);
+        };
+
+        // --- MODIFIED: displayAIReply now accepts and uses the language code ---
+        const displayAIReply = (originalText, sarcasticReply, lang) => {
+            userQuote.textContent = `You said: "${originalText}"`;
+            aiReply.textContent = sarcasticReply;
+            aiCard.classList.add('active');
+            // Pass the language to the speakText function
+            speakText(sarcasticReply, lang);
+            
+            setTimeout(() => aiCard.classList.remove('active'), 8000); 
+        };
+
+        const addTranscriptEntry = (speaker, text) => {
+            const entry = document.createElement('div');
+            entry.innerHTML = `<strong>${speaker}:</strong> ${text}`;
+            transcriptContainer.appendChild(entry);
+            transcriptContainer.scrollTop = transcriptContainer.scrollHeight;
+        };
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+Flask
+Flask-Cors
+requests
+SpeechRecognition
+
+To install the required audio libraries on your system, you might need to run:
+on Debian/Ubuntu: sudo apt-get install libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0
+on Mac: brew install portaudio
+Then install PyAudio:
+PyAudio
