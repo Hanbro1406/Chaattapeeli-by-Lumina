@@ -3,168 +3,966 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>നിന്റെ ഒച്ചക്കു ഞാൻ കാത്തിരിക്കുന്നു! (Live AI Edition)</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>നിന്റെ ഒച്ചക്കു ഞാൻ കാത്തിരിക്കുന്നു! - Chaattapeeli</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+Malayalam:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
         body {
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Poppins', sans-serif;
             height: 100vh;
             overflow: hidden;
-            background: linear-gradient(-45deg, #0f0f23, #1a1a2e, #16213e, #0f3460);
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8e8 25%, #fff8e1 50%, #ffeaa7 75%, #fab1a0 100%);
             background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
+            animation: keralaGradient 20s ease infinite;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
         }
-        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        .main-container { text-align: center; z-index: 10; position: relative; padding: 2rem; display: flex; flex-direction: column; align-items: center; }
-        .main-title { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 600; color: #ffffff; margin-bottom: 1rem; text-shadow: 0 0 20px rgba(255, 255, 255, 0.3); letter-spacing: -0.02em; }
-        #recordButton { margin-top: 2rem; padding: 1rem 2rem; font-size: 1.2rem; font-weight: 600; color: #fff; background: #e94560; border: none; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(233, 69, 96, 0.4); -webkit-user-select: none; -ms-user-select: none; user-select: none; }
-        #recordButton:hover { transform: translateY(-3px); box-shadow: 0 6px 25px rgba(233, 69, 96, 0.6); }
-        #recordButton.recording { background: #16a085; box-shadow: 0 4px 20px rgba(22, 160, 133, 0.4); }
-        .status-text { color: rgba(255, 255, 255, 0.7); margin-top: 1rem; min-height: 1.2em; font-size: 1.2rem; font-weight: 500; }
-        .transcript-container { position: absolute; bottom: 2rem; left: 2rem; right: 2rem; max-height: 30vh; overflow-y: auto; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 12px; backdrop-filter: blur(5px); z-index: 5; text-align: left; color: rgba(255, 255, 255, 0.7); }
-        .transcript-entry { margin-bottom: 0.5rem; font-size: 0.9rem; }
-        .character-card { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); width: 450px; max-width: 90vw; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 24px; padding: 2.5rem; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4); opacity: 0; visibility: hidden; transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); z-index: 100; pointer-events: none; }
-        .character-card.active { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
-        .user-quote { font-style: italic; color: rgba(255, 255, 255, 0.6); margin-bottom: 1.5rem; padding: 0.5rem 1rem; border-left: 3px solid rgba(255, 255, 255, 0.4); font-size: 1rem; text-align: left; width: 100%; }
-        .character-avatar { font-size: 3.5rem; margin-bottom: 1.5rem; }
-        .character-name { font-size: 1.8rem; font-weight: 600; color: #ffffff; }
-        .character-description { font-size: 1.1rem; color: rgba(255, 255, 255, 0.8); line-height: 1.6; }
+        
+        @keyframes keralaGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Decorative Kerala patterns */
+        .pattern-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(34, 139, 34, 0.1) 2px, transparent 2px),
+                radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.1) 2px, transparent 2px),
+                radial-gradient(circle at 40% 60%, rgba(255, 107, 107, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px, 80px 80px, 30px 30px;
+            animation: patternFloat 30s ease-in-out infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes patternFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        /* Main character container */
+        .character-section {
+            position: absolute;
+            left: 5%;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+        
+        .malayali-lady {
+            width: 280px;
+            height: 350px;
+            position: relative;
+            animation: breathe 4s ease-in-out infinite;
+        }
+        
+        @keyframes breathe {
+            0%, 100% { transform: scale(1) translateY(0px); }
+            50% { transform: scale(1.02) translateY(-5px); }
+        }
+        
+        /* Character face and body */
+        .face {
+            width: 120px;
+            height: 140px;
+            background: #d4a574;
+            border-radius: 50% 50% 45% 45%;
+            position: relative;
+            margin: 0 auto 20px;
+            box-shadow: inset 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .hair {
+            width: 140px;
+            height: 100px;
+            background: #2c1810;
+            border-radius: 70px 70px 20px 20px;
+            position: absolute;
+            top: -20px;
+            left: -10px;
+            z-index: -1;
+        }
+        
+        .hair::before {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 80px;
+            background: #2c1810;
+            border-radius: 50%;
+            right: -30px;
+            top: 30px;
+            transform: rotate(20deg);
+        }
+        
+        .bindi {
+            width: 8px;
+            height: 8px;
+            background: #dc2626;
+            border-radius: 50%;
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .eyes {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .eye {
+            width: 20px;
+            height: 15px;
+            background: white;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pupil {
+            width: 12px;
+            height: 12px;
+            background: #2c1810;
+            border-radius: 50%;
+            position: absolute;
+            top: 1px;
+            left: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .eye::after {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 3px;
+            left: 6px;
+        }
+        
+        .eyebrows {
+            position: absolute;
+            top: 42px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .eyebrow {
+            width: 25px;
+            height: 4px;
+            background: #2c1810;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .nose {
+            width: 8px;
+            height: 12px;
+            background: rgba(0,0,0,0.1);
+            position: absolute;
+            top: 65px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 0 0 50% 50%;
+        }
+        
+        .mouth {
+            width: 25px;
+            height: 12px;
+            border: 3px solid #dc2626;
+            border-top: none;
+            border-radius: 0 0 25px 25px;
+            position: absolute;
+            top: 85px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.3s ease;
+        }
+        
+        /* Character expressions */
+        .lady-thinking .eyebrow:first-child {
+            transform: rotate(-15deg) translateY(-2px);
+        }
+        
+        .lady-thinking .eyebrow:last-child {
+            transform: rotate(15deg) translateY(-2px);
+        }
+        
+        .lady-talking .mouth {
+            animation: talking 0.5s ease-in-out infinite alternate;
+        }
+        
+        @keyframes talking {
+            0% { transform: translateX(-50%) scaleY(0.8); }
+            100% { transform: translateX(-50%) scaleY(1.2); }
+        }
+        
+        .lady-listening .eyes {
+            animation: blink 3s ease-in-out infinite;
+        }
+        
+        @keyframes blink {
+            0%, 90%, 100% { transform: translateX(-50%) scaleY(1); }
+            95% { transform: translateX(-50%) scaleY(0.1); }
+        }
+        
+        /* Traditional dress */
+        .saree {
+            width: 160px;
+            height: 180px;
+            background: linear-gradient(45deg, #228B22, #32CD32, #228B22);
+            position: relative;
+            margin: 0 auto;
+            border-radius: 80px 80px 20px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .saree::before {
+            content: '';
+            position: absolute;
+            width: 120px;
+            height: 40px;
+            background: #FFD700;
+            top: 20px;
+            left: 20px;
+            border-radius: 20px;
+            box-shadow: inset 0 5px 10px rgba(0,0,0,0.1);
+        }
+        
+        .pallu {
+            position: absolute;
+            width: 80px;
+            height: 100px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            top: -10px;
+            right: -20px;
+            border-radius: 40px 40px 20px 40px;
+            transform: rotate(15deg);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* Arms */
+        .arms {
+            position: absolute;
+            top: 60px;
+            width: 100%;
+            height: 80px;
+        }
+        
+        .arm {
+            width: 30px;
+            height: 70px;
+            background: #d4a574;
+            position: absolute;
+            border-radius: 15px;
+        }
+        
+        .arm.left {
+            left: -15px;
+            transform: rotate(-20deg);
+        }
+        
+        .arm.right {
+            right: -15px;
+            transform: rotate(20deg);
+        }
+        
+        /* Main interface */
+        .main-container {
+            text-align: center;
+            z-index: 10;
+            position: absolute;
+            right: 8%;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            min-width: 350px;
+        }
+        
+        .main-title {
+            font-family: 'Noto Sans Malayalam', sans-serif;
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            font-weight: 600;
+            color: #2d5016;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            line-height: 1.3;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+        
+        #recordButton {
+            padding: 1.2rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+            background: linear-gradient(135deg, #32CD32, #228B22);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 25px rgba(34, 139, 34, 0.3);
+            position: relative;
+            overflow: hidden;
+            min-width: 180px;
+        }
+        
+        #recordButton::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+        
+        #recordButton:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(34, 139, 34, 0.4);
+        }
+        
+        #recordButton:hover::before {
+            left: 100%;
+        }
+        
+        #recordButton.recording {
+            background: linear-gradient(135deg, #FF6B6B, #e74c3c);
+            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4);
+            animation: recordingPulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes recordingPulse {
+            0%, 100% { transform: translateY(-3px) scale(1); }
+            50% { transform: translateY(-3px) scale(1.05); }
+        }
+        
+        .status-text {
+            color: #666;
+            margin-top: 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            min-height: 1.2em;
+        }
+        
+        /* Speech bubble for character */
+        .speech-bubble {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 15px 20px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            max-width: 250px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            border: 2px solid #FFD700;
+        }
+        
+        .speech-bubble.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-10px);
+        }
+        
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid white;
+        }
+        
+        .speech-text {
+            font-size: 0.9rem;
+            color: #333;
+            line-height: 1.4;
+            text-align: center;
+        }
+        
+        /* Floating decorative elements */
+        .floating-element {
+            position: absolute;
+            opacity: 0.6;
+            animation: float 6s ease-in-out infinite;
+            pointer-events: none;
+        }
+        
+        .floating-element:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .floating-element:nth-child(2) {
+            top: 20%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+        
+        .floating-element:nth-child(3) {
+            bottom: 15%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(10deg); }
+            66% { transform: translateY(10px) rotate(-5deg); }
+        }
+        
+        /* Responsive design */
+        @media (max-width: 1200px) {
+            .character-section {
+                position: relative;
+                left: 50%;
+                transform: translateX(-50%);
+                top: 20px;
+                margin-bottom: 2rem;
+            }
+            
+            .main-container {
+                position: relative;
+                right: auto;
+                top: auto;
+                transform: none;
+                margin: 0 auto;
+            }
+            
+            body {
+                flex-direction: column;
+                padding: 2rem 1rem;
+                overflow-y: auto;
+                height: auto;
+                min-height: 100vh;
+            }
+            
+            .malayali-lady {
+                width: 220px;
+                height: 280px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-container {
+                min-width: auto;
+                width: 100%;
+                max-width: 400px;
+            }
+            
+            .malayali-lady {
+                width: 180px;
+                height: 220px;
+            }
+            
+            .face {
+                width: 100px;
+                height: 120px;
+            }
+            
+            .saree {
+                width: 130px;
+                height: 150px;
+            }
+        }
+        
+        /* Transcript container */
+        .transcript-container {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            right: 2rem;
+            max-height: 25vh;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            z-index: 50;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .transcript-entry {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #333;
+        }
+        
+        .transcript-entry strong {
+            color: #2d5016;
+        }
+
+        /* AI Reply Modal */
+        .ai-reply-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            width: 90%;
+            max-width: 500px;
+            background: white;
+            border-radius: 25px;
+            padding: 2rem;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 200;
+            border: 3px solid #FFD700;
+        }
+        
+        .ai-reply-modal.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        
+        .modal-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-avatar {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2d5016;
+            margin-bottom: 0.5rem;
+        }
+        
+        .user-quote-modal {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #32CD32;
+            font-style: italic;
+            color: #666;
+        }
+        
+        .ai-response {
+            font-size: 1.1rem;
+            color: #333;
+            line-height: 1.6;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        /* Modal backdrop */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 190;
+        }
+        
+        .modal-backdrop.active {
+            opacity: 1;
+            visibility: visible;
+        }
     </style>
 </head>
 <body>
-
-    <div class="main-container">
-        <h1 class="main-title">നിന്റെ ഒച്ചക്കു ഞാൻ കാത്തിരിക്കുന്നു!</h1>
-        <p class="status-text" id="statusText">Press and hold the button to speak</p>
-        <button id="recordButton">Hold to Speak</button>
+    <!-- Decorative pattern overlay -->
+    <div class="pattern-overlay"></div>
+    
+    <!-- Floating decorative elements -->
+    <div class="floating-element" style="font-size: 2rem;">🌴</div>
+    <div class="floating-element" style="font-size: 1.5rem;">🥥</div>
+    <div class="floating-element" style="font-size: 1.8rem;">🌺</div>
+    
+    <!-- Character section -->
+    <div class="character-section">
+        <div class="malayali-lady lady-listening" id="malayaliLady">
+            <div class="speech-bubble" id="speechBubble">
+                <div class="speech-text" id="bubbleText">എന്തെങ്കിലും പറയൂ!</div>
+            </div>
+            
+            <div class="face">
+                <div class="hair"></div>
+                <div class="bindi"></div>
+                <div class="eyebrows">
+                    <div class="eyebrow"></div>
+                    <div class="eyebrow"></div>
+                </div>
+                <div class="eyes">
+                    <div class="eye"><div class="pupil"></div></div>
+                    <div class="eye"><div class="pupil"></div></div>
+                </div>
+                <div class="nose"></div>
+                <div class="mouth"></div>
+            </div>
+            
+            <div class="saree">
+                <div class="pallu"></div>
+                <div class="arms">
+                    <div class="arm left"></div>
+                    <div class="arm right"></div>
+                </div>
+            </div>
+        </div>
     </div>
     
-    <div class="transcript-container" id="transcript-container"></div>
-    <div class="character-card" id="aiCard">
-        <p class="user-quote" id="userQuote"></p>
-        <div class="character-avatar">😈</div>
-        <h2 class="character-name">Chaattapeeli</h2>
-        <p class="character-description" id="aiReply"></p>
+    <!-- Main interface -->
+    <div class="main-container">
+        <h1 class="main-title">നിന്റെ ഒച്ചക്കു ഞാൻ കാത്തിരിക്കുന്നു!</h1>
+        <p class="subtitle">Your Sarcastic Malayalam Companion</p>
+        <p class="status-text" id="statusText">Press and hold the button to speak</p>
+        <button id="recordButton">🎤 Hold to Speak</button>
+    </div>
+    
+    <!-- Transcript container -->
+    <div class="transcript-container" id="transcriptContainer">
+        <div style="text-align: center; color: #666; font-size: 0.9rem; margin-bottom: 1rem;">
+            <strong>Conversation History</strong>
+        </div>
+    </div>
+    
+    <!-- AI Reply Modal -->
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="ai-reply-modal" id="aiReplyModal">
+        <div class="modal-header">
+            <div class="modal-avatar">😏</div>
+            <h2 class="modal-title">Chaattapeeli Says...</h2>
+        </div>
+        <div class="user-quote-modal" id="userQuoteModal">
+            You said: "..."
+        </div>
+        <div class="ai-response" id="aiResponseText">
+            <!-- AI response will be inserted here -->
+        </div>
     </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const statusText = document.getElementById('statusText');
-        const aiCard = document.getElementById('aiCard');
-        const userQuote = document.getElementById('userQuote');
-        const aiReply = document.getElementById('aiReply');
-        const transcriptContainer = document.getElementById('transcript-container');
-        const recordButton = document.getElementById('recordButton');
-        
-        let mediaRecorder;
-        let audioChunks = [];
-        let audioStream;
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const statusText = document.getElementById('statusText');
+            const malayaliLady = document.getElementById('malayaliLady');
+            const speechBubble = document.getElementById('speechBubble');
+            const bubbleText = document.getElementById('bubbleText');
+            const transcriptContainer = document.getElementById('transcriptContainer');
+            const recordButton = document.getElementById('recordButton');
+            const aiReplyModal = document.getElementById('aiReplyModal');
+            const modalBackdrop = document.getElementById('modalBackdrop');
+            const userQuoteModal = document.getElementById('userQuoteModal');
+            const aiResponseText = document.getElementById('aiResponseText');
+            
+            let mediaRecorder;
+            let audioChunks = [];
+            let audioStream;
+            let isRecording = false;
 
-        const socket = io('http://127.0.0.1:5000');
-        
-        socket.on('connect', () => {
-            addTranscriptEntry('System', 'Bilingual connection established.');
-            initializeAudio();
-        });
-
-        // --- MODIFIED: Handle new 'lang' property from server ---
-        socket.on('transcription_result', (data) => {
-            addTranscriptEntry('You', data.original_text);
-            // Pass the detected language to the display function
-            displayAIReply(data.original_text, data.sarcastic_comeback, data.lang);
-            statusText.textContent = 'Press and hold the button to speak';
-            recordButton.disabled = false;
-        });
-
-        const initializeAudio = async () => {
-            try {
-                audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                recordButton.disabled = false;
-            } catch (err) {
-                statusText.textContent = 'Microphone access denied.';
-                recordButton.disabled = true;
-            }
-        };
-
-        const startRecording = () => {
-            if (!audioStream) return;
-            audioChunks = [];
-            mediaRecorder = new MediaRecorder(audioStream);
-            mediaRecorder.addEventListener("dataavailable", event => audioChunks.push(event.data));
-            mediaRecorder.addEventListener("stop", processAudio);
-            mediaRecorder.start();
-            recordButton.textContent = 'Listening...';
-            recordButton.classList.add('recording');
-        };
-
-        const stopRecording = () => {
-             if (mediaRecorder && mediaRecorder.state === "recording") {
-                mediaRecorder.stop();
-                recordButton.textContent = 'Processing...';
-                recordButton.classList.remove('recording');
-                recordButton.disabled = true;
-            }
-        };
-        
-        recordButton.addEventListener('mousedown', startRecording);
-        recordButton.addEventListener('mouseup', stopRecording);
-        recordButton.addEventListener('touchstart', (e) => { e.preventDefault(); startRecording(); });
-        recordButton.addEventListener('touchend', stopRecording);
-
-        const processAudio = () => {
-            if (audioChunks.length === 0) {
-                recordButton.disabled = false;
-                recordButton.textContent = 'Hold to Speak';
-                return;
+            const socket = io('http://127.0.0.1:5000');
+            
+            // Character states and expressions
+            const setCharacterState = (state) => {
+                malayaliLady.className = `malayali-lady ${state}`;
+                
+                switch(state) {
+                    case 'lady-listening':
+                        bubbleText.textContent = 'എന്തെങ്കിലും പറയൂ!';
+                        showSpeechBubble();
+                        break;
+                    case 'lady-thinking':
+                        bubbleText.textContent = 'ഹ്മ്മ്... ചിന്തിക്കട്ടെ';
+                        showSpeechBubble();
+                        break;
+                    case 'lady-talking':
+                        hideSpeechBubble();
+                        break;
+                    default:
+                        hideSpeechBubble();
+                }
             };
-            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-            socket.emit('audio_chunk', audioBlob);
-        };
-        
-        // --- MODIFIED: speakText function now accepts a language code ---
-        const speakText = (text, lang) => {
-            if (!('speechSynthesis' in window)) return;
-            window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(text);
-            const voices = window.speechSynthesis.getVoices();
             
-            // Dynamically select voice based on language
-            if (lang === 'ml-IN') {
-                utterance.voice = voices.find(voice => voice.lang === 'ml-IN');
-                utterance.lang = 'ml-IN';
-            } else { // Default to English
-                utterance.voice = voices.find(voice => voice.lang === 'en-US');
-                utterance.lang = 'en-US';
-            }
+            const showSpeechBubble = () => {
+                speechBubble.classList.add('active');
+                setTimeout(() => speechBubble.classList.remove('active'), 3000);
+            };
             
-            window.speechSynthesis.speak(utterance);
-        };
-
-        // --- MODIFIED: displayAIReply now accepts and uses the language code ---
-        const displayAIReply = (originalText, sarcasticReply, lang) => {
-            userQuote.textContent = `You said: "${originalText}"`;
-            aiReply.textContent = sarcasticReply;
-            aiCard.classList.add('active');
-            // Pass the language to the speakText function
-            speakText(sarcasticReply, lang);
+            const hideSpeechBubble = () => {
+                speechBubble.classList.remove('active');
+            };
             
-            setTimeout(() => aiCard.classList.remove('active'), 8000); 
-        };
+            // Socket events
+            socket.on('connect', () => {
+                addTranscriptEntry('System', '✅ Connection established with Chaattapeeli');
+                setCharacterState('lady-listening');
+                initializeAudio();
+            });
 
-        const addTranscriptEntry = (speaker, text) => {
-            const entry = document.createElement('div');
-            entry.innerHTML = `<strong>${speaker}:</strong> ${text}`;
-            transcriptContainer.appendChild(entry);
-            transcriptContainer.scrollTop = transcriptContainer.scrollHeight;
-        };
-    });
-</script>
+            socket.on('transcription_result', (data) => {
+                addTranscriptEntry('You', data.original_text);
+                displayAIReply(data.original_text, data.sarcastic_comeback, data.lang, data.audio_response);
+                statusText.textContent = 'Press and hold the button to speak';
+                recordButton.disabled = false;
+                recordButton.textContent = '🎤 Hold to Speak';
+                isRecording = false;
+            });
 
+            // Audio initialization
+            const initializeAudio = async () => {
+                try {
+                    audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    recordButton.disabled = false;
+                    statusText.textContent = 'Ready to listen! Hold the button and speak';
+                } catch (err) {
+                    statusText.textContent = 'Microphone access denied. Please enable microphone.';
+                    recordButton.disabled = true;
+                    bubbleText.textContent = 'മൈക്രോഫോൺ വേണം!';
+                    showSpeechBubble();
+                }
+            };
+
+            // Recording functions
+            const startRecording = () => {
+                if (!audioStream || isRecording) return;
+                
+                isRecording = true;
+                audioChunks = [];
+                mediaRecorder = new MediaRecorder(audioStream);
+                
+                mediaRecorder.addEventListener("dataavailable", event => {
+                    if (event.data.size > 0) {
+                        audioChunks.push(event.data);
+                    }
+                });
+                
+                mediaRecorder.addEventListener("stop", processAudio);
+                mediaRecorder.start();
+                
+                recordButton.textContent = '🔴 Listening...';
+                recordButton.classList.add('recording');
+                statusText.textContent = 'Listening... Release to process';
+                setCharacterState('lady-listening');
+            };
+
+            const stopRecording = () => {
+                if (mediaRecorder && mediaRecorder.state === "recording" && isRecording) {
+                    mediaRecorder.stop();
+                    recordButton.textContent = '⏳ Processing...';
+                    recordButton.classList.remove('recording');
+                    recordButton.disabled = true;
+                    statusText.textContent = 'Processing your message...';
+                    setCharacterState('lady-thinking');
+                }
+            };
+            
+            // Event listeners for recording
+            recordButton.addEventListener('mousedown', startRecording);
+            recordButton.addEventListener('mouseup', stopRecording);
+            recordButton.addEventListener('mouseleave', stopRecording);
+            
+            recordButton.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                startRecording();
+            });
+            
+            recordButton.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                stopRecording();
+            });
+
+            // Process audio
+            const processAudio = () => {
+                if (audioChunks.length === 0) {
+                    recordButton.disabled = false;
+                    recordButton.textContent = '🎤 Hold to Speak';
+                    statusText.textContent = 'No audio recorded. Try again.';
+                    setCharacterState('lady-listening');
+                    isRecording = false;
+                    return;
+                }
+                
+                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                socket.emit('audio_chunk', audioBlob);
+            };
+            
+            // Speech synthesis
+            const speakText = (text, lang, audioData = null) => {
+                // If we have audio data from backend, use it instead of browser TTS
+                if (audioData) {
+                    try {
+                        // Convert base64 to audio blob
+                        const audioBytes = atob(audioData);
+                        const audioArray = new Uint8Array(audioBytes.length);
+                        for (let i = 0; i < audioBytes.length; i++) {
+                            audioArray[i] = audioBytes.charCodeAt(i);
+                        }
+                        const audioBlob = new Blob([audioArray], { type: 'audio/mpeg' });
+                        const audioUrl = URL.createObjectURL(audioBlob);
+                        const audio = new Audio(audioUrl);
+                        
+                        audio.onplay = () => {
+                            setCharacterState('lady-talking');
+                        };
+                        
+                        audio.onended = () => {
+                            setCharacterState('lady-listening');
+                            URL.revokeObjectURL(audioUrl); // Clean up
+                        };
+                        
+                        audio.onerror = (e) => {
+                            console.error('Audio playback error:', e);
+                            // Fallback to browser TTS
+                            speakTextFallback(text, lang);
+                        };
+                        
+                        audio.play();
+                        return;
+                    } catch (error) {
+                        console.error('Error playing backend audio:', error);
+                        // Fallback to browser TTS
+                    }
+                }
+                
+                // Fallback to browser TTS
+                speakTextFallback(text, lang);
+            };
+            
+            const speakTextFallback = (text, lang) => {
+                if (!('speechSynthesis' in window)) return;
+                
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                const voices = window.speechSynthesis.getVoices();
+                
+                if (lang === 'ml-IN') {
+                    const malayalamVoice = voices.find(voice => voice.lang === 'ml-IN');
+                    if (malayalamVoice) {
+                        utterance.voice = malayalamVoice;
+                    }
+                    utterance.lang = 'ml-IN';
+                } else {
+                    const englishVoice = voices.find(voice => voice.lang === 'en-US' || voice.lang === 'en-IN');
+                    if (englishVoice) {
+                        utterance.voice = englishVoice;
+                    }
+                    utterance.lang = 'en-US';
+                }
+                
+                utterance.rate = 0.9;
+                utterance.pitch = 1.1;
+                
+                utterance.onstart = () => {
+                    setCharacterState('lady-talking');
+                };
+                
+                utterance.onend = () => {
+                    setCharacterState('lady-listening');
+                };
+                
+                window.speechSynthesis.speak(utterance);
+            };
+
+            // Display AI reply
+            const displayAIReply = (originalText, sarcasticReply, lang, audioData = null) => {
+                userQuoteModal.textContent = `You said: "${originalText}"`;
+                aiResponseText.textContent = sarcasticReply;
+                
+                // Show modal
+                modalBackdrop.classList.add('active');
+                aiReplyModal.classList.add('active');
+                
+                // Speak the reply
+                setTimeout(() => {
+                    speakText(sarcasticReply, lang, audioData);
+                }, 500);
+                
+                // Auto-hide modal after 8 seconds
+                setTimeout(() => {
+                    hideModal();
+                }, 8000);
+                
+                addTranscriptEntry('Chaattapeeli', sarcasticReply);
+            };
+            
+            // Hide modal
+            const hideModal = () => {
+                modalBackdrop.classList.remove('active');
+                aiReplyModal.classList.remove('active');
+            };
+            
+            // Click backdrop to close modal
+            modalBackdrop.addEventListener('click', hideModal);
+
+            // Add transcript entry
+            const addTranscriptEntry = (speaker, text) => {
+                const entry = document.createElement('div');
+                entry.className = 'transcript-entry';
+                
+                const timestamp = new Date().toLocaleTimeString('en-US', {
+                    hour12: false,
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                entry.innerHTML = `<strong>${speaker}</strong> (${timestamp}): ${text}`;
+                transcriptContainer.appendChild(entry);
+                transcriptContainer.scrollTop = transcriptContainer.scrollHeight;
+            };
+            
+            // Initialize character
+            setCharacterState('lady-listening');
+            
+            // Load voices when available
+            speechSynthesis.onvoiceschanged = () => {
+                console.log('Voices loaded:', speechSynthesis.getVoices().length);
+            };
+        });
+    </script>
 </body>
 </html>
