@@ -17,17 +17,19 @@ import io
 import base64
 
 # --- Setup ---
-# Define the trusted frontend URL
-frontend_url = "https://chaattapeeli-by-lumina.vercel.app"
-
 app = Flask(__name__)
 
-# Configure SocketIO to allow connections from your frontend URL.
+# Configure SocketIO to allow connections from all origins for debugging.
 # This also handles CORS for the WebSocket connections.
-socketio = SocketIO(app, cors_allowed_origins=frontend_url)
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 # Load environment variables from .env file
 load_dotenv()
+
+# --- Add a root route for health checks ---
+@app.route('/')
+def index():
+    return "Chaattapeeli backend is running!"
 
 # --- Configure Gemini API ---
 try:
