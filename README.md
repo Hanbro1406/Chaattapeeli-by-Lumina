@@ -102,18 +102,37 @@ For Software:
 *Reply*
 
 # Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
+![Workflow](sequenceDiagram
+    participant User
+    participant Frontend (Browser - index.html)
+    participant Backend (Server - app.py)
+    participant External APIs (Google)
+
+    User->>+Frontend (Browser - index.html): 1. Press & Hold "Hold to Speak" button
+    Frontend (Browser - index.html)->>Frontend (Browser - index.html): 2. Record audio via microphone
+    User->>-Frontend (Browser - index.html): 3. Release button
+    Frontend (Browser - index.html)->>+Backend (Server - app.py): 4. Emit 'audio_chunk' with audio data via Socket.IO
+
+    Backend (Server - app.py)->>Backend (Server - app.py): 5. Convert received audio to .wav format using ffmpeg
+
+    Backend (Server - app.py)->>+External APIs (Google): 6. Transcribe audio to text (tries Malayalam, then English)
+    External APIs (Google)-->>-Backend (Server - app.py): 7. Return transcribed text & detected language
+
+    Backend (Server - app.py)->>+External APIs (Google): 8. Send text to Gemini API for sarcastic comeback
+    External APIs (Google)-->>-Backend (Server - app.py): 9. Return sarcastic text response
+
+    Backend (Server - app.py)->>+External APIs (Google): 10. Send comeback text to gTTS API for speech synthesis
+    External APIs (Google)-->>-Backend (Server - app.py): 11. Return audio data (Base64 encoded)
+
+    Backend (Server - app.py)-->>-Frontend (Browser - index.html): 12. Emit 'transcription_result' with text and audio data via Socket.IO
+
+    Frontend (Browser - index.html)->>Frontend (Browser - a href="index.html" target="_blank">index.html</a>): 13. Display sarcastic text in a modal
+    Frontend (Browser - index.html)->>User: 14. Play received audio response
 
 For Hardware:
 
 # Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
+nil
 # Build Photos
 ![Components](Add photo of your components here)
 *List out all components shown*
