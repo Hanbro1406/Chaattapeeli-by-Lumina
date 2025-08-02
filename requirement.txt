@@ -1,7 +1,12 @@
 Flask
 Flask-Cors
-requests
+Flask-SocketIO
+gunicorn
+eventlet
 SpeechRecognition
+google-generativeai
+python-dotenv
+gTTS
 
 To install the required audio libraries on your system, you might need to run:
 on Debian/Ubuntu: sudo apt-get install libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0
