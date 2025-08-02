@@ -14,13 +14,13 @@
 - Member 2: [Sivani N.S] - [Albertian Institute of Science & Technology]
 
 ### Project Description
-[2-3 lines about what your project does]
+Chaattapeeli (ചാട്ടപ്പീലി), which translates to "Whip," is a web-based, voice-interactive AI companion. It features an animated character who listens to a user's spoken input in either Malayalam or English. The application then leverages a generative AI to provide a witty, sarcastic comeback in the same language, delivering the response as both text within a modal and as synthesized audio.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+In a world filled with overly polite and relentlessly helpful AI assistants, there's a glaring void for a digital companion that doesn't just serve but judges. Users are drowning in a sea of "Certainly, how can I help you?". They secretly yearn for an AI that listens to their deepest thoughts and responds with the sharp, witty, and lovingly sarcastic retort they truly deserve.
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+Enter Chaattapeeli, the digital embodiment of a quintessential Keralite aunt with a sharp tongue and a heart of... well, something. This application provides the vital service of taking your spoken words, transcribing them, and using the powerful Gemini AI to generate a fittingly sarcastic comeback. It then speaks the response back to you, all while an animated character visibly judges your life choices.
 
 ## Technical Details
 ### Technologies/Components Used
