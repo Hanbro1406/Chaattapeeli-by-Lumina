@@ -152,10 +152,8 @@ nil
 [Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
-
+- [Hansel T Jaison]: [Frontend and Backend development]
+- [Sivani]: [Idea, name and design setup]
 ---
 Made with ❤️ at TinkerHub Useless Projects 
 
