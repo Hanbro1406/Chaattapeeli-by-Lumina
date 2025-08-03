@@ -132,14 +132,15 @@ For Hardware:
 # Schematic & Circuit
 nil
 # Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
+![Components](<img width="666" height="174" alt="image" src="https://github.com/user-attachments/assets/8ea80b67-2d0e-4119-8d63-43d5f29a0b02" />
+)
 
-![Build](Add photos of build process here)
-*Explain the build steps*
+![Build](<img width="1354" height="922" alt="image" src="https://github.com/user-attachments/assets/7ba77643-eb10-4b38-8bb8-2961359859c7" />
+), ![WhatsApp Image 2025-08-02 at 21 34 41_29851b3d](https://github.com/user-attachments/assets/c719e7cf-9cc2-4f53-81cd-ca235ac4bba5)
 
-![Final](Add photo of final product here)
-*Explain the final build*
+
+![Final](<img width="1629" height="866" alt="Screenshot (329)" src="https://github.com/user-attachments/assets/37e1a583-7c74-4c3f-8664-2bca898f2f8d" />
+)
 
 ### Project Demo
 # Video
