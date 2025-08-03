@@ -34,9 +34,7 @@ External APIs: Google Gemini 1.5 Flash, Google Speech Recognition
 - [ffmpeg for audio format conversion]
 
 For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+- no specific hardware required. A Browser can run it.
 
 ### Implementation
 For Software:
