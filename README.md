@@ -155,6 +155,9 @@ nil
 - [Hansel T Jaison]: [Frontend and Backend development]
 - [Sivani]: [Idea, name and design setup]
 ---
+
+    Note:
+    Due to some technical issues, we were unable to deploy it successfully. We have deployed it on Vercel, but it doesn't support Flutter (backend). The front end can be viewed through https://chaattapeeli-by-lumina.vercel.app/
 Made with ❤️ at TinkerHub Useless Projects 
 
 ![Static Badge](https://img.shields.io/badge/TinkerHub-24?color=%23000000&link=https%3A%2F%2Fwww.tinkerhub.org%2F)
