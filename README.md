@@ -136,8 +136,6 @@ nil
 )
 
 ![Build](<img width="1354" height="922" alt="image" src="https://github.com/user-attachments/assets/7ba77643-eb10-4b38-8bb8-2961359859c7" />)
-![Build](<WhatsApp Image 2025-08-02 at 21 34 41_29851b3d](https://github.com/user-attachments/assets/c719e7cf-9cc2-4f53-81cd-ca235ac4bba5)>)
-
 
 ![Final]([<img width="1615" height="746" alt="reply" src="https://github.com/user-attachments/assets/389cc96e-e188-403b-b2f7-2dd0e73a5e56" />])
 ### Project Demo
