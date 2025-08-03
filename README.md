@@ -139,8 +139,7 @@ nil
 ,<[WhatsApp Image 2025-08-02 at 21 34 41_29851b3d](https://github.com/user-attachments/assets/c719e7cf-9cc2-4f53-81cd-ca235ac4bba5)>)
 
 
-![Final](<img width="1629" height="866" alt="Screenshot (329)" src="https://github.com/user-attachments/assets/37e1a583-7c74-4c3f-8664-2bca898f2f8d" />)
-
+![Final]([<img width="1615" height="746" alt="reply" src="https://github.com/user-attachments/assets/389cc96e-e188-403b-b2f7-2dd0e73a5e56" />])
 ### Project Demo
 # Video
 [(https://drive.google.com/file/d/1ZchgpYWiZgnxvigCLKbknvRX2UY2QhN1/view?usp=drivesdk)]
